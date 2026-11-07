@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#241d3f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f8e9ee'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' fill='%23d67f99'%3E✿%3C/text%3E%3C/svg%3E">
+  <title>Petalbound: The Dewlight Quest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">✿</div>
+      <div class="brand-copy"><span class="eyebrow">A cozy Neopian fairy RPG</span><h1>Petalbound <span>✦</span></h1></div>
+      <div class="top-stats">
+        <div class="stat-chip"><span class="stat-icon heart">♥</span><span id="healthText">5 / 5</span><div class="stat-meter"><i id="healthBar"></i></div></div>
+        <div class="stat-chip"><span class="stat-icon dew">✧</span><span id="dewCount">0</span><small>dew</small></div>
+        <button class="sound-button" id="soundButton" aria-label="Toggle sound" title="Toggle sound">♫</button>
+      </div>
+    </header>
+
+    <section class="game-grid">
+      <div class="stage-column">
+        <div class="scene-frame">
+          <div class="scene-label"><span class="location-dot"></span><span id="locationLabel">Mosslight Meadow</span><span class="day-label">DAY 1 · SPRING</span></div>
+          <canvas id="scene" width="320" height="180" aria-label="Pixel art fairy meadow game scene"></canvas>
+          <div class="scene-caption" id="sceneCaption">The meadow hums with a little bit of magic.</div>
+          <div class="battle-layer hidden" id="battleLayer">
+            <div class="battle-top"><span>✦ A wild Gloom Moth appears!</span><span id="battleStatus">Your turn</span></div>
+            <canvas id="battleScene" width="320" height="116" aria-label="Pixel art battle"></canvas>
+            <div class="battle-dialog" id="battleDialog">A Gloom Moth flutters from the brambles.</div>
+            <div class="battle-actions">
+              <button data-action="attack">✦ <span>Starlight</span></button>
+              <button data-action="soothe">❀ <span>Soothe</span></button>
+              <button data-action="potion">♥ <span>Petal tea <b id="potionCount">2</b></span></button>
+              <button data-action="run">↗ <span>Flee</span></button>
+            </div>
+          </div>
+          <div class="toast hidden" id="toast" role="status"></div>
+        </div>
+        <div class="play-controls">
+          <div class="control-hint"><span class="keycap">WASD</span> or <span class="keycap">↑↓←→</span> to wander <span class="hint-divider">·</span> <span class="keycap">SPACE</span> interact</div>
+          <div class="dpad" aria-label="Movement controls">
+            <button class="pad up" data-move="up" aria-label="Move up">▲</button>
+            <button class="pad left" data-move="left" aria-label="Move left">◀</button>
+            <button class="pad down" data-move="down" aria-label="Move down">▼</button>
+            <button class="pad right" data-move="right" aria-label="Move right">▶</button>
+          </div>
+          <button class="interact-button" id="interactButton"><span>✦</span> Interact</button>
+        </div>
+      </div>
+
+      <aside class="side-panel">
+        <section class="quest-card">
+          <div class="section-heading"><span class="heading-icon">☼</span><div><span class="eyebrow">Your story</span><h2>The Dewlight Quest</h2></div></div>
+          <p id="questText">Find Elder Fern near the old stump. She may know why the meadow's light is fading.</p>
+          <div class="quest-progress"><div class="progress-track"><i id="questProgress"></i></div><span id="questProgressLabel">0 / 4</span></div>
+          <div class="quest-steps" id="questSteps"><span class="step-dot"></span><span>Meet Elder Fern</span></div>
+        </section>
+        <section class="companion-card">
+          <div class="companion-title"><span>YOUR COMPANION</span><span class="online-dot"></span></div>
+          <div class="companion-row"><div class="portrait" aria-hidden="true"><span>✧</span><i></i></div><div><h3>Lumi</h3><p>Petal Fairy · Lv. 3</p><div class="xp-track"><i></i></div></div><span class="companion-heart">♥</span></div>
+          <div class="companion-quote" id="companionQuote">“I can feel the dewlight nearby!”</div>
+        </section>
+        <section class="satchel-card">
+          <div class="satchel-heading"><h2>Satchel</h2><span id="itemTotal">3 items</span></div>
+          <div class="item-list">
+            <div class="item-row"><span class="item-gem">✧</span><span>Moon Dew</span><b id="satchelDew">0</b></div>
+            <div class="item-row"><span class="item-tea">♥</span><span>Petal Tea</span><b id="satchelTea">2</b></div>
+            <div class="item-row"><span class="item-seed">❀</span><span>Moonseed</span><b id="satchelSeed">0</b></div>
+          </div>
+        </section>
+        <div class="tip-card"><span>✦</span><p><b>Little tip</b><br>Look for sparkling dew drops tucked between the flowers.</p></div>
+      </aside>
+    </section>
+    <footer><span>✿</span> A small adventure in a big, bright world <span class="footer-right">AUTO-SAVED ON THIS DEVICE</span></footer>
+  </main>
+  <div class="dialog-backdrop hidden" id="dialogBackdrop"><section class="dialog-card" role="dialog" aria-modal="true"><button class="dialog-close" id="dialogClose" aria-label="Close dialogue">×</button><div class="dialog-avatar" id="dialogAvatar">❀</div><div class="dialog-content"><span class="eyebrow" id="dialogSpeaker">ELDER FERN</span><p id="dialogText"></p><button id="dialogNext" class="dialog-next">Continue <span>→</span></button></div></section></div>
+  <script src="game.js"></script>
+</body>
+</html>
